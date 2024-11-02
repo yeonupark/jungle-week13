@@ -1,15 +1,21 @@
-const PLUS_ONE = "PLUS_ONE";
-const MINUS_ONE = "MINUS_ONE"
+import { act } from "react";
 
-export const plusOne = () => {
+// Action Value
+const ADD_NUMBER = "ADD_NUMBER";
+const SUB_NUMBER = "SUB_NUMBER";
+
+// Action Creator
+export const addNumber = (payload) => {
     return {
-        type: PLUS_ONE,
+        type: ADD_NUMBER,
+        payload,
     };
 };
 
-export const minusOne = () => {
+export const subNumber = (payload) => {
     return {
-        type: MINUS_ONE,
+        type: SUB_NUMBER,
+        payload,
     };
 };
 
@@ -20,15 +26,14 @@ const initialState = {
 
 // 리듀서: 변화를 일으키는 함수
 const counter = (state = initialState, action) => {
-    console.log(action)
     switch (action.type) {
-        case PLUS_ONE:
+        case ADD_NUMBER:
             return {
-                number: state.number + 1,
+                number: state.number + action.payload,
             }
-        case MINUS_ONE:
+        case SUB_NUMBER:
             return {
-                number: state.number - 1,
+                number: state.number - action.payload,
             }
         default:
             return state;
