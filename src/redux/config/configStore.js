@@ -1,11 +1,11 @@
 import { legacy_createStore as createStore } from "redux";
 import { combineReducers } from "redux";
 
-import counter from "../modules/counter"
+import viewer from "../modules/viewer"
 
 // 우리가 만든 카운터 모듈을 스토어에 연결
 const rootReducer = combineReducers({
-    counter: counter,
+    viewer: viewer,
 });
 const store = createStore(rootReducer);
 

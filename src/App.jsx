@@ -1,27 +1,48 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux"; 
-import { addNumber, subNumber } from "./redux/modules/counter";
+import { addTodo } from "./redux/modules/viewer";
+import "../src/App.css"
 
 const App = () => {
+  const [todo, setTodo] = useState("");
   const dispatch = useDispatch();
-  const globalNumber = useSelector((state) => state.counter.number);
 
-  const [num, setNum] = useState(0);
-  const inputHandler = (e) => {
-    setNum(+e.target.value); // 숫자로 형변환
-  };  
+  const globalTodos = useSelector((state) => state.viewer.todos);
+  
+  const addTodoHandler = () => {
+    if (todo.length != 0) {
+      dispatch(addTodo(todo));
+      setTodo("");
+    }
+  };
 
-  return <div>
-    <div>{globalNumber}</div>
-    <div><input type="num" onChange={inputHandler} /></div>
-    <button onClick={() => {
-      // 마우스를 클릭했을 때 dispatch가 실행되고, ()안에 있는 액션객체가 리듀서로 전달됨
-      dispatch(addNumber(num)); // Action creator
-    }}>+</button>
-    <button onClick={() => {
-      dispatch(subNumber(num));
-    }}>-</button>
-  </div>;
+  return (
+    <div >
+      <div>
+        <h4>Todos의 제목을 입력하세요</h4> 
+        <input 
+          type="text" 
+          value={todo}
+          onChange={(e) => {
+            setTodo(e.target.value);
+          }} />
+        <button 
+          onClick={addTodoHandler}>
+          추가하기
+        </button>
+      </div>
+
+      <div className="style">
+        {globalTodos.map((content) => {
+          return (
+            <div className="squareStyle">
+              {content.title}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default App;
