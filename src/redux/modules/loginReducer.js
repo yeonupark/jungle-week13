@@ -1,22 +1,38 @@
-const LOGGED_IN = "LOGGED_IN";
+import { jwtDecode } from "jwt-decode";
 
-export const loggedIn = (value)  => {
+const LOGIN = "LOGIN";
+const LOGOUT = "LOGOUT";
+
+export const login = (payload) => {
     return {
-        type: LOGGED_IN,
-        value
+        type: LOGIN,
+        payload
     }
-};
+}
+
+export const logout = () => {
+    return {
+        type: LOGOUT
+    }
+}
 
 const initialState = {
-    value: false,
+    user_id: sessionStorage.getItem('authToken'),
 };
 
 const loginReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOGGED_IN:
-            
+        case LOGIN:
+            sessionStorage.setItem('authToken', action.payload);
+            const decoded = jwtDecode(action.payload);
+            console.log(decoded);
             return {
-                value: action.value
+                user_id: decoded.userId
+            }
+        case LOGOUT:
+            sessionStorage.setItem('authToken', "");
+            return {
+                user_id: ""
             }
         default:
             return state;

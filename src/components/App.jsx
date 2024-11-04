@@ -6,8 +6,8 @@ import Todos from "./Todos";
 
 const App = () => {
   
-  const loginState = useSelector((state) => state.loginReducer.value);
-  return loginState ? <Todos /> : <Login />
+  const user_id = useSelector((state) => state.loginReducer.user_id);
+  return user_id ? <Todos /> : <Login />
 }
 
 export default App;

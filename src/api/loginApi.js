@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "https://week13.hjyoon.me/api/auth/"
 
-export async function register(nickname, pw, pw_confirm) {
+export async function registerRequest(nickname, pw, pw_confirm) {
     try {
         const response = await axios.post(API_URL+"register", {
             nickname: nickname,
@@ -21,7 +21,7 @@ export async function register(nickname, pw, pw_confirm) {
     }
 };
 
-export async function login(nickname, password) {
+export async function loginRequest(nickname, password) {
     try {
         const response = await axios.post(API_URL+"login", {
             nickname,

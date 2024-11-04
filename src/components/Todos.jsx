@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"; 
 import { setTodos } from "../redux/modules/todoRedecer";
 import { createTodo, fetchTodos, deleteTodo, updateTodo } from "../api/todoApi";
+import { logout } from "../redux/modules/loginReducer";
 
 import "../css/App.css"
 
@@ -43,6 +44,9 @@ const Todos = () => {
     return (
         <div >
         <div>
+            <button onClick={() => {
+                dispatch(logout());
+            }}>로그아웃</button>
             <h4>할 일을 입력하세요</h4> 
             <input 
             type="text" 
@@ -50,7 +54,7 @@ const Todos = () => {
             onChange={(e) => {
                 setTodo(e.target.value);
             }} />
-            <button 
+            <button style={{ fontSize: 14, width: 80, padding: '5px 2px', }}
             onClick={addTodoHandler}>
             추가하기
             </button>
@@ -60,7 +64,7 @@ const Todos = () => {
             {globalTodos.map((todo) => {
             return (
                 <div className="squareStyle">
-                    <div className="nicknameBadge">{todo.user_id.nickname}</div>
+                    <div className="nicknameBadge">{todo.author.nickname}</div>
                     <div className="todoTitle">{todo.title}</div>
                     <div className="todoContent">{todo.content}</div>
                     <div className="buttonContainer">

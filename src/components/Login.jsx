@@ -1,8 +1,8 @@
 import React, { useState} from "react";
 import { useDispatch } from "react-redux";
 import "../css/App.css"
-import { register, login } from "../api/loginApi"
-import { loggedIn } from "../redux/modules/loginReducer";
+import { registerRequest, loginRequest } from "../api/loginApi"
+import { login } from "../redux/modules/loginReducer";
 
 function Login() {
     
@@ -23,11 +23,10 @@ function Login() {
     };
 
     const sendloginRequest = async() => {
-        const token = await login(id, pw);
+        const token = await loginRequest(id, pw);
         if (token != null) {
             alert("login success !");
-            sessionStorage.setItem('authToken', token);
-            dispatch(loggedIn(true));
+            dispatch(login(token));
         } else {
             alert("login failed");
         }
@@ -55,7 +54,7 @@ function Login() {
             return;
         }
 
-        const result = await register(id, pw, pwConfirm);
+        const result = await registerRequest(id, pw, pwConfirm);
         if (result === true) {
             alert("welcome !");
             setIsJoinModalOpen(false);
@@ -65,11 +64,11 @@ function Login() {
     };
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '10px', alignItems: "center"}}>
             <input type="text" onChange={idHandler} placeholder="id"/>
             <input type="password" onChange={pwHandler} placeholder="pw"/>
-            <button style={{ padding: '5px 10px', backgroundColor: 'yellow'}} onClick={sendloginRequest}>로그인</button>
-            <button style={{ padding: '0px 0px', backgroundColor: 'white'}} onClick={joinButtonHandler}>회원가입</button>
+            <button style={{ fontSize: 14, width: 80, padding: '5px 10px', backgroundColor: 'rgb(138, 199, 239)'}} onClick={sendloginRequest}>로그인</button>
+            <button style={{ fontSize: 14, padding: '0px 0px', backgroundColor: 'white'}} onClick={joinButtonHandler}>회원가입</button>
             
             {isJoinModalOpen && (
                 <div className="modal">
@@ -96,12 +95,14 @@ function Login() {
                         value={pwConfirm}
                         onChange={(e) => setPwConfirm(e.target.value)}
                     />
-                    <button style={{width : "80px"}} onClick={() => {
+                    <div style={{alignItems: "horizontal"}}>
+                    <button style={{fontSize: 14, width : "80px", padding: '5px 10px', backgroundColor: 'rgb(138, 199, 239)'}} onClick={() => {
                     sendJoinRequest();
                     }}>
                     join
                     </button>
-                    <button style={{width : "80px"}} onClick={() => setIsJoinModalOpen(false)}>cancel</button>
+                    <button style={{fontSize: 14, width : "80px"}} onClick={() => setIsJoinModalOpen(false)}>cancel</button>
+                    </div>
                 </div>
                 </div>
             )}
