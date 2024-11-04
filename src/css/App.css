@@ -109,6 +109,17 @@
   font-weight: bold;
 }
 
+.detailViewButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
 .todoTitle {
   font-size: 16px;
   font-weight: bold;
@@ -132,10 +143,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
 }
 
 .modalContent {
-  position: relative;
+  position: fixed;
   background-color: white;
   padding: 20px;
   border-radius: 8px;

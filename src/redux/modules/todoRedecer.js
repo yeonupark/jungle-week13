@@ -13,7 +13,7 @@ const initialState = {
             _id: "6728e5d88929e34c03fb9b59",
             title: "하이",
             content: " ",
-            user_id: {
+            author: {
                 _id: "67284f3c4379ecb76917a904",
                 nickname: "dusn"
             },

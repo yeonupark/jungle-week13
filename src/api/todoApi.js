@@ -28,7 +28,6 @@ export async function fetchTodos() {
         const response = await api.get('/', {
             headers: { Authorization: `Bearer ${sessionStorage.getItem('authToken')}` }
         });
-        console.log(response.data.data);
         if (response.data.code == 1) {
             return response.data.data;
         } else {
@@ -45,7 +44,6 @@ export async function createTodo(title, content) {
     try {
         const response = await api.post('', {'title': title, 'content': content}, 
             { headers: { Authorization: `Bearer ${sessionStorage.getItem('authToken')}` } });
-        console.log(response);
         if (response.data.code == 1) {
             return true;
         } else {
@@ -70,12 +68,11 @@ export async function deleteTodo(postId) {
     }
 }
 
-export async function updateTodo(postId, title) {
+export async function updateTodo(postId, title, content) {
     try {
-        const response = await api.put(`${postId}`, {'title' : title, 'content' : '수정됨'},
+        const response = await api.put(`${postId}`, {'title' : title, 'content' : content},
             { headers: { Authorization: `Bearer ${sessionStorage.getItem('authToken')}` } }
         );
-        console.log(response);
         if (response.data.code == 1) {
             return true;
         } else {

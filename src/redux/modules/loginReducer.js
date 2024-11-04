@@ -25,7 +25,6 @@ const loginReducer = (state = initialState, action) => {
         case LOGIN:
             sessionStorage.setItem('authToken', action.payload);
             const decoded = jwtDecode(action.payload);
-            console.log(decoded);
             return {
                 user_id: decoded.userId
             }
