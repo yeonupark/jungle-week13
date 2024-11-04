@@ -10,11 +10,14 @@ export const setTodos = (payload) => {
 const initialState = {
     todos: [
         {
-            userId: "idepix",
-            title: "",
-            content: "",
-            id: "",
-            createdAt: ""
+            _id: "6728e5d88929e34c03fb9b59",
+            title: "하이",
+            content: " ",
+            user_id: {
+                _id: "67284f3c4379ecb76917a904",
+                nickname: "dusn"
+            },
+            created_at: "2024-11-04T15:18:48.312Z"
         }
     ]
 }

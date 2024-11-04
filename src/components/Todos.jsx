@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"; 
 import { setTodos } from "../redux/modules/todoRedecer";
-import { createTodo, fetchTodos } from "../api/todoApi";
+import { createTodo, fetchTodos, deleteTodo, updateTodo } from "../api/todoApi";
 
 import "../css/App.css"
 
@@ -33,7 +33,7 @@ const Todos = () => {
         if (todo.length <= 1) {
             alert("5글자 이상 입력해주세요 !");
         } else {
-            if (await createTodo(todo, "") == true) {
+            if (await createTodo(todo, " ") == true) {
                 setReload(!reload);
                 setTodo("");
             }
@@ -43,7 +43,7 @@ const Todos = () => {
     return (
         <div >
         <div>
-            <h4>Todos의 제목을 입력하세요</h4> 
+            <h4>할 일을 입력하세요</h4> 
             <input 
             type="text" 
             value={todo}
@@ -60,16 +60,22 @@ const Todos = () => {
             {globalTodos.map((todo) => {
             return (
                 <div className="squareStyle">
-                {todo.title}
-                <button className="editButtonStyle" onClick={() => {
-                    setEditID(todo.id);
-                    setEditTitle(todo.title);
-                    setIsModalOpen(true);
-                    //dispatch(editTodo(content.id, content.title));
-                }}>수정</button>
-                <button className="deleteButtonStyle" onClick={() => {
-                    // dispatch(deleteTodo(todo.id));
-                }}>삭제</button>
+                    <div className="nicknameBadge">{todo.user_id.nickname}</div>
+                    <div className="todoTitle">{todo.title}</div>
+                    <div className="todoContent">{todo.content}</div>
+                    <div className="buttonContainer">
+                        <button className="editButtonStyle" onClick={() => {
+                            setEditID(todo._id);
+                            setEditTitle(todo.title);
+                            setIsModalOpen(true);
+                        }}>수정</button>
+                        <button className="deleteButtonStyle" onClick={ async() => {
+                            const delete_success = await deleteTodo(todo._id)
+                            if (delete_success) {
+                                setReload(!reload);
+                            };
+                        }}>삭제</button>
+                    </div>
                 </div>
             );
             })}
@@ -78,19 +84,23 @@ const Todos = () => {
         {isModalOpen && (
             <div className="modal">
             <div className="modalContent">
+            <button className="closeButtonStyle" onClick={() => setIsModalOpen(false)}>×</button>
                 <h3>수정할 내용 입력</h3>
                 <input
                 type="text"
                 value={editTitle}
                 onChange={(e) => setEditTitle(e.target.value)}
                 />
-                <button onClick={() => {
-                // dispatch(editTodo(editId, editTitle))
-                setIsModalOpen(false)
-                }}>
-                저장
-                </button>
-                <button onClick={() => setIsModalOpen(false)}>취소</button>
+                <div className="buttonContainer">
+                    <button className="saveButtonStyle" onClick={async() => {
+                    if (await updateTodo(editId, editTitle)) {
+                        setReload(!reload);
+                    }
+                    setIsModalOpen(false)
+                    }}>
+                    저장
+                    </button>
+                </div>
             </div>
             </div>
         )}
