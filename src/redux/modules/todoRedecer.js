@@ -1,17 +1,33 @@
-import { fetchTodos, createTodo } from "../../api/todoApi";
-import { addTodo } from "./viewer";
+const SET_TODO = 'SET_TODO';
 
-// Action Value
-// const ADD_TODO = "ADD_TODO";
-// const DELETE_TODO = "DELETE_TODO";
-// const EDIT_TODO = "EDIT_TODO";
-
-export const addTodoAction = (todo) => async(dispatch) => {
-
-    try {
-        const newTodo = await createTodo(todo);
-        dispatch(addTodo(newTodo));
-    } catch (error) {
-        console.log('Error adding todo: ', error);
+export const setTodos = (payload) => {
+    return {
+        type: SET_TODO,
+        payload
     }
 };
+
+const initialState = {
+    todos: [
+        {
+            userId: "idepix",
+            title: "",
+            content: "",
+            id: "",
+            createdAt: ""
+        }
+    ]
+}
+
+const todoReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case SET_TODO:
+            return {
+                todos: action.payload
+            }
+        default:
+            return state
+    }
+};
+
+export default todoReducer;

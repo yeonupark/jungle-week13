@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"; 
-import { addTodo, deleteTodo, editTodo } from "../redux/modules/viewer";
-import { loggedIn } from "../redux/modules/loginReducer";
+import { setTodos } from "../redux/modules/todoRedecer";
+import { createTodo, fetchTodos } from "../api/todoApi";
+
 import "../css/App.css"
 
 const Todos = () => {
@@ -10,24 +11,38 @@ const Todos = () => {
     const [editId, setEditID] = useState(null);
     const [editTitle, setEditTitle] = useState("");
 
+    const [reload, setReload] = useState(false);
+
     const dispatch = useDispatch();
 
-    // const loginState = useSelector((state) => state.loginReducer.value);
-    const globalTodos = useSelector((state) => state.viewer.todos);
+    const globalTodos = useSelector((state) => state.todoReducer.todos);
+
+    useEffect(() => {
+        // 내부에서 비동기 함수를 별도로 정의하고 호출해야함
+        const fetchData = async () => {
+            const todos = await fetchTodos();
+            if (todos != null) {
+                dispatch(setTodos(todos));
+            }
+        };
+
+        fetchData();
+    }, [reload]);
     
-    const addTodoHandler = () => {
-        if (todo.length <= 4) {
-        alert("5글자 이상 입력해주세요 !");
+    const addTodoHandler = async() => {
+        if (todo.length <= 1) {
+            alert("5글자 이상 입력해주세요 !");
         } else {
-        dispatch(addTodo(todo));
-        setTodo("");
+            if (await createTodo(todo, "") == true) {
+                setReload(!reload);
+                setTodo("");
+            }
         }
     };
 
     return (
         <div >
         <div>
-            <button onClick={() => {dispatch(loggedIn(false));}}>로그아웃</button>
             <h4>Todos의 제목을 입력하세요</h4> 
             <input 
             type="text" 
@@ -42,18 +57,18 @@ const Todos = () => {
         </div>
 
         <div className="style">
-            {globalTodos.map((content) => {
+            {globalTodos.map((todo) => {
             return (
                 <div className="squareStyle">
-                {content.title}
+                {todo.title}
                 <button className="editButtonStyle" onClick={() => {
-                    setEditID(content.id);
-                    setEditTitle(content.title);
+                    setEditID(todo.id);
+                    setEditTitle(todo.title);
                     setIsModalOpen(true);
                     //dispatch(editTodo(content.id, content.title));
                 }}>수정</button>
                 <button className="deleteButtonStyle" onClick={() => {
-                    dispatch(deleteTodo(content.id));
+                    // dispatch(deleteTodo(todo.id));
                 }}>삭제</button>
                 </div>
             );
@@ -70,7 +85,7 @@ const Todos = () => {
                 onChange={(e) => setEditTitle(e.target.value)}
                 />
                 <button onClick={() => {
-                dispatch(editTodo(editId, editTitle))
+                // dispatch(editTodo(editId, editTitle))
                 setIsModalOpen(false)
                 }}>
                 저장
