@@ -7,21 +7,6 @@ const api = axios.create({
     // headers: { Authorization: `Bearer ${token}` },
 });
 
-// 요청 인터셉터 추가
-// api.interceptors.request.use(
-//     (config) => {
-//         // 매 요청 시마다 최신 토큰을 가져와 설정
-//         const token = sessionStorage.getItem('authToken');
-//         if (token) {
-//             config.headers.Authorization = `Bearer ${token}`;
-//         }
-//         return config;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// );
-
 export async function fetchTodos() {
 
     try {

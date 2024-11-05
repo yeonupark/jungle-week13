@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setTodos } from "../redux/modules/todoRedecer";
 import { createTodo, fetchTodos, deleteTodo, updateTodo } from "../api/todoApi";
 import { logout } from "../redux/modules/loginReducer";
+import { Link } from 'react-router-dom';
 
 import "../css/App.css"
 
@@ -94,9 +95,12 @@ const Todos = () => {
             return (
                 <div className="squareStyle">
                     <div className="nicknameBadge">{todo.author.nickname}</div>
-                    <button className="detailViewButton" onClick={() => {
+                    {/* <button className="detailViewButton" onClick={() => {
                         
-                    }}>상세보기</button>
+                    }}>상세 페이지</button> */}
+                    <Link to={`/todos/${todo._id}`}>
+                        <div className="detailViewButton">상세페이지</div>
+                    </Link>
                     <div className="todoTitle">{todo.title}</div>
                     <div className="todoContent">{todo.content}</div>
                     { isMine &&
